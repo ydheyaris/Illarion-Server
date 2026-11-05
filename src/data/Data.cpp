@@ -24,7 +24,7 @@
 #include "Logger.hpp"
 #include "script/LuaLongTimeEffectScript.hpp"
 
-#include <range/v3/all.hpp>
+#include <ranges>
 
 namespace Data {
 
@@ -129,11 +129,11 @@ void preReload() {
 }
 
 auto getIdFromName(const std::string &itemName) -> TYPE_OF_ITEM_ID {
-    using namespace ranges;
+    using namespace std::ranges;
     TYPE_OF_ITEM_ID item = 0;
 
     auto foundItem = [itemName](const auto &item) { return item.second.serverName == itemName; };
-    auto found = find_if(items(), foundItem);
+    auto found = std::ranges::find_if(items(), foundItem);
 
     if (found != items().end()) {
         item = found->second.id;

@@ -29,7 +29,7 @@
 #include "map/Field.hpp"
 
 #include <boost/cstdint.hpp>
-#include <range/v3/all.hpp>
+#include <ranges>
 
 //! Creates a new SpawnPoint at <pos>
 SpawnPoint::SpawnPoint(const position &pos, Coordinate Range, Coordinate Spawnrange, uint16_t Min_Spawntime,
@@ -40,9 +40,9 @@ SpawnPoint::SpawnPoint(const position &pos, Coordinate Range, Coordinate Spawnra
 
 //! add new Monstertyp to SpawnList...
 void SpawnPoint::addMonster(TYPE_OF_CHARACTER_ID type, int count) {
-    using namespace ranges;
+    using namespace std::ranges;
     auto isType = [type](const auto &spawn) { return spawn.typ == type; };
-    auto result = find_if(SpawnTypes, isType);
+    auto result = std::ranges::find_if(SpawnTypes, isType);
 
     if (result != SpawnTypes.end()) {
         result->max_count += count;

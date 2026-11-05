@@ -32,7 +32,7 @@
 #include "stream.hpp"
 
 #include <algorithm>
-#include <range/v3/all.hpp>
+#include <ranges>
 
 namespace map {
 
@@ -670,9 +670,9 @@ void Field::updateDatabaseItems() const noexcept {
             dataQuery.addServerTable("map_item_data");
 
             uint16_t stackPos = 0;
-            auto nonMovable = ranges::view::filter([](const Item &item) { return not item.isMovable(); });
+            auto nonMovable = std::ranges::view::filter([](const Item &item) { return not item.isMovable(); });
 
-            ranges::for_each(items | nonMovable, [&](const auto &item) {
+            std::ranges::for_each(items | nonMovable, [&](const auto &item) {
                 itemQuery.addValue<int16_t>(xColumn, here.x);
                 itemQuery.addValue<int16_t>(yColumn, here.y);
                 itemQuery.addValue<int16_t>(zColumn, here.z);

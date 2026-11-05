@@ -38,7 +38,7 @@
 
 #include <algorithm>
 #include <list>
-#include <range/v3/all.hpp>
+#include <ranges>
 
 extern MonsterTable *monsterDescriptions;
 
@@ -312,11 +312,11 @@ auto World::findCharacter(TYPE_OF_CHARACTER_ID id) -> Character * {
         if (tmpChr != nullptr) {
             return tmpChr;
         }
-        using namespace ranges;
+        using namespace std::ranges;
 
         auto idsMatch = [id](const auto &monster) { return monster->getId() == id; };
 
-        auto result = find_if(newMonsters, idsMatch);
+        auto result = std::ranges::find_if(newMonsters, idsMatch);
 
         if (result != newMonsters.end()) {
             return *result;

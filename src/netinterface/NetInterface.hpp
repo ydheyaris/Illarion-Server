@@ -35,6 +35,7 @@
 #include <deque>
 #include <memory>
 #include <mutex>
+#include <utility>
 
 class LoginCommandTS;
 

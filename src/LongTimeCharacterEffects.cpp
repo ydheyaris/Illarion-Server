@@ -30,15 +30,15 @@
 #include "db/SelectQuery.hpp"
 
 #include <algorithm>
-#include <range/v3/all.hpp>
+#include <ranges>
 #include <string>
 
 LongTimeCharacterEffects::LongTimeCharacterEffects(Character *owner) : owner(owner), time(0) {}
 
 auto LongTimeCharacterEffects::find(uint16_t effectid, LongTimeEffect *&effect) const -> bool {
-    using namespace ranges;
+    using namespace std::ranges;
     auto doesIdMatch = [effectid](const auto &e) { return e->getEffectId() == effectid; };
-    auto result = find_if(effects, doesIdMatch);
+    auto result = std::ranges::find_if(effects, doesIdMatch);
     bool success = result != effects.end();
 
     if (success) {
@@ -51,9 +51,9 @@ auto LongTimeCharacterEffects::find(uint16_t effectid, LongTimeEffect *&effect) 
 }
 
 auto LongTimeCharacterEffects::find(const std::string &effectname, LongTimeEffect *&effect) const -> bool {
-    using namespace ranges;
+    using namespace std::ranges;
     auto doesNameMatch = [&effectname](const auto &e) { return e->getEffectName() == effectname; };
-    auto result = find_if(effects, doesNameMatch);
+    auto result = std::ranges::find_if(effects, doesNameMatch);
     bool success = result != effects.end();
 
     if (success) {

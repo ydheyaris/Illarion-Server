@@ -21,6 +21,8 @@
 
 #include "thread_safe_vector.hpp"
 
+#include <utility>
+
 #include <boost/asio.hpp>
 #include <memory>
 

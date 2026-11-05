@@ -35,7 +35,7 @@
 #include "netinterface/NetInterface.hpp"
 
 #include <limits>
-#include <range/v3/all.hpp>
+#include <ranges>
 
 KeepAliveTC::KeepAliveTC() : BasicServerCommand(SC_KEEPALIVE_TC) {}
 
@@ -503,7 +503,7 @@ MapStripeTC::MapStripeTC(const position &pos, NewClientView::stripedirection dir
     const uint8_t numberOfTiles = World::get()->clientview.getMaxTiles();
     addUnsignedCharToBuffer(numberOfTiles);
 
-    ranges::for_each(fields | ranges::view::take(numberOfTiles), [&](const auto &field) {
+    std::ranges::for_each(fields | std::views::take(numberOfTiles), [&](const auto &field) {
         if (field != nullptr) {
             addShortIntToBuffer(field->getTileCode());
             addUnsignedCharToBuffer(field->getMovementCost());

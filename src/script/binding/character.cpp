@@ -28,7 +28,7 @@
 
 #include <luabind/adopt_policy.hpp>
 #include <luabind/out_value_policy.hpp>
-#include <range/v3/all.hpp>
+#include <ranges>
 
 namespace binding {
 
@@ -37,13 +37,13 @@ auto character() -> Binding<Character> {
 
     luabind::value_vector skills;
 
-    ranges::for_each(Data::skills(), [&skills](const auto &skill) {
+    std::ranges::for_each(Data::skills(), [&skills](const auto &skill) {
         skills.push_back(luabind::value(skill.second.serverName.c_str(), skill.first));
     });
 
     luabind::value_vector races;
 
-    ranges::for_each(Data::races(), [&races](const auto &race) {
+    std::ranges::for_each(Data::races(), [&races](const auto &race) {
         races.push_back(luabind::value(race.second.serverName.c_str(), race.first));
     });
 

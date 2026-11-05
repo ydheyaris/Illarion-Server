@@ -22,6 +22,7 @@
 #include "constants.hpp"
 #include "types.hpp"
 
+#include <boost/container/vector.hpp>
 #include <boost/functional/hash/hash.hpp>
 #include <charconv>
 #include <exception>
@@ -156,7 +157,7 @@ enum QuestAvailability {
     questNotAvailable = 3
 };
 
-using script_data_exchangemap = std::vector<std::pair<std::string, std::string>>;
+using script_data_exchangemap = boost::container::vector<std::pair<std::string, std::string>>;
 
 template <typename T> auto stringToNumber(const std::string &s, T &n) -> bool {
     auto [p, error] = std::from_chars(s.data(), s.data() + s.length(), n); // NOLINT

@@ -25,7 +25,7 @@
 
 #include <cmath>
 #include <map>
-#include <range/v3/all.hpp>
+#include <ranges>
 #include <unordered_map>
 
 template <class T> auto CharacterContainer<T>::getPosition(TYPE_OF_CHARACTER_ID id, position &pos) -> bool {
@@ -51,10 +51,10 @@ template <class T> auto CharacterContainer<T>::find(const std::string &name) con
         return find(id);
     }
 
-    using namespace ranges;
+    using namespace std::ranges;
     auto namesMatch = [&name](pointer character) { return comparestrings_nocase(character->getName(), name); };
-    auto characters = container | view::values;
-    auto result = find_if(characters, namesMatch);
+    auto characters = container | std::views::values;
+    auto result = std::ranges::find_if(characters, namesMatch);
 
     if (result != characters.end()) {
         return *result;

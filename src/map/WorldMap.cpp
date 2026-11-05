@@ -34,7 +34,7 @@
 #include <chrono>
 #include <filesystem>
 #include <iomanip>
-#include <range/v3/all.hpp>
+#include <ranges>
 #include <regex>
 #include <sstream>
 #include <stdexcept>
@@ -47,9 +47,9 @@ void WorldMap::clear() {
 }
 
 auto WorldMap::intersects(const Map &map) const -> bool {
-    using namespace ranges;
+    using namespace std::ranges;
     auto doIntersectMap = [&map](const auto &testMap) { return map.intersects(testMap); };
-    auto overlap = find_if(maps, doIntersectMap);
+    auto overlap = std::ranges::find_if(maps, doIntersectMap);
     bool foundIntersection = overlap != maps.end();
 
     if (foundIntersection) {
@@ -100,8 +100,8 @@ auto WorldMap::allMapsAged() -> bool {
         return false;
     }
 
-    using namespace ranges;
-    for_each(persistentFields | view::values, [](auto &field) { field.age(); });
+    using namespace std::ranges;
+    std::ranges::for_each(persistentFields | std::views::values, [](auto &field) { field.age(); });
 
     ageIndex = 0;
     return true;

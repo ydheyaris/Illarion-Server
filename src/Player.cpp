@@ -51,7 +51,7 @@
 #include "tuningConstants.hpp"
 
 #include <memory>
-#include <range/v3/all.hpp>
+#include <ranges>
 #include <sstream>
 #include <utility>
 
@@ -218,9 +218,9 @@ void Player::setAlive(bool alive) {
 }
 
 void Player::openShowcase(Container *container, const ScriptItem &item, bool carry) {
-    using namespace ranges;
+    using namespace std::ranges;
     auto containsContainer = [container](const auto &showcase) { return showcase.second->contains(container); };
-    auto result = find_if(showcases, containsContainer);
+    auto result = std::ranges::find_if(showcases, containsContainer);
 
     if (result != showcases.end()) {
         const auto lookAt = item.getLookAt(this);
@@ -289,10 +289,10 @@ void Player::updateShowcaseSlot(Container *container, TYPE_OF_CONTAINERSLOTS slo
 auto Player::isShowcaseOpen(uint8_t showcase) const -> bool { return showcases.find(showcase) != showcases.cend(); }
 
 auto Player::isShowcaseOpen(Container *container) const -> bool {
-    using namespace ranges;
+    using namespace std::ranges;
     auto containsContainer = [container](const auto &showcase) { return showcase->contains(container); };
-    auto showcaseView = showcases | view::values;
-    auto result = find_if(showcaseView, containsContainer);
+    auto showcaseView = showcases | std::views::values;
+    auto result = std::ranges::find_if(showcaseView, containsContainer);
     return result != showcaseView.end();
 }
 
@@ -305,9 +305,9 @@ auto Player::isShowcaseInInventory(uint8_t showcase) const -> bool {
 }
 
 auto Player::getShowcaseId(Container *container) const -> uint8_t {
-    using namespace ranges;
+    using namespace std::ranges;
     auto containsContainer = [container](const auto &showcase) { return showcase.second->contains(container); };
-    auto result = find_if(showcases, containsContainer);
+    auto result = std::ranges::find_if(showcases, containsContainer);
 
     if (result != showcases.end()) {
         return result->first;
@@ -377,7 +377,7 @@ void Player::lookIntoShowcaseContainer(uint8_t showcase, unsigned char pos) {
         Container *showcaseContainer = getShowcaseContainer(showcase);
 
         auto isShowcaseContainer = [showcaseContainer](auto container) { return container == showcaseContainer; };
-        bool allowedToOpenContainer = ranges::any_of(depotContents | ranges::view::values, isShowcaseContainer);
+        bool allowedToOpenContainer = std::ranges::any_of(depotContents | std::views::values, isShowcaseContainer);
 
         if ((showcaseContainer != nullptr) && allowedToOpenContainer) {
             Container *tempc = nullptr;
@@ -1436,7 +1436,7 @@ auto Player::load() noexcept -> bool {
 
             Result results = query.execute();
 
-            ranges::for_each(results, [&depotid](const ResultTuple &row) {
+            std::ranges::for_each(results, [&depotid](const ResultTuple &row) {
                 depotid.push_back(row["pit_depot"].as<uint32_t>());
             });
         }

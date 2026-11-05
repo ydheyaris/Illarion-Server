@@ -25,7 +25,7 @@
 #include "stream.hpp"
 
 #include <algorithm>
-#include <range/v3/all.hpp>
+#include <ranges>
 #include <sstream>
 
 auto ItemLookAt::operator==(const ItemLookAt &rhs) const -> bool {
@@ -119,9 +119,9 @@ auto Item::hasData(const script_data_exchangemap &datamap) const -> bool {
         return false;
     }
 
-    using namespace ranges;
+    using namespace std::ranges;
     auto dataEqual = [this](const auto &dataKeyValue) { return getData(dataKeyValue.first) == dataKeyValue.second; };
-    return all_of(datamap, dataEqual);
+    return std::ranges::all_of(datamap, dataEqual);
 }
 
 auto Item::hasNoData() const -> bool { return datamap.empty(); }

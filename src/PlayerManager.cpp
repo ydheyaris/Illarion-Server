@@ -32,7 +32,7 @@
 
 #include <chrono>
 #include <memory>
-#include <range/v3/all.hpp>
+#include <ranges>
 
 std::unique_ptr<PlayerManager> PlayerManager::instance = nullptr;
 std::mutex PlayerManager::mut;
@@ -68,9 +68,9 @@ void PlayerManager::stop() {
 auto PlayerManager::findPlayer(const std::string &name) const -> bool {
     std::lock_guard<std::mutex> lock(mut);
 
-    using namespace ranges;
+    using namespace std::ranges;
     auto hasThisName = [&name](const auto &player) { return player->getName() == name; };
-    return any_of(loggedOutPlayers, hasThisName);
+    return std::ranges::any_of(loggedOutPlayers, hasThisName);
 }
 
 void PlayerManager::setLoginLogout(bool val) {
