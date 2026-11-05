@@ -1174,8 +1174,8 @@ auto Player::save() noexcept -> bool {
             }
 
             // add depots to container list
-            ranges::transform(depotContents, ranges::back_inserter(containers),
-                              [](const auto &depot) { return container_struct(depot.second, 0, depot.first); });
+            std::ranges::transform(depotContents, std::back_inserter(containers),
+                                   [](const auto &depot) { return container_struct(depot.second, 0, depot.first); });
             auto stream =
                     connection->streamTo({server, "playeritems"},
                                          {"pit_playerid", "pit_linenumber", "pit_in_container", "pit_depot",

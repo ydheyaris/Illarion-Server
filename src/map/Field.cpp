@@ -670,7 +670,7 @@ void Field::updateDatabaseItems() const noexcept {
             dataQuery.addServerTable("map_item_data");
 
             uint16_t stackPos = 0;
-            auto nonMovable = std::ranges::view::filter([](const Item &item) { return not item.isMovable(); });
+            auto nonMovable = std::views::filter([](const Item &item) { return not item.isMovable(); });
 
             std::ranges::for_each(items | nonMovable, [&](const auto &item) {
                 itemQuery.addValue<int16_t>(xColumn, here.x);

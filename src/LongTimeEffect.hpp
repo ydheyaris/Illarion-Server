@@ -22,6 +22,7 @@
 #define LONGTIMEEFFECT_HPP
 
 #include <string>
+#include <cstdint>
 #include <unordered_map>
 
 class Character;

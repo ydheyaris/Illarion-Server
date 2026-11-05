@@ -29,6 +29,7 @@
 #include <boost/graph/graph_concepts.hpp>
 #include <boost/operators.hpp>
 #include <boost/unordered_map.hpp>
+#include <list>
 #include <vector>
 
 namespace pathfinding {

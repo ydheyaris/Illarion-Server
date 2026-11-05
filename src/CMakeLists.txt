@@ -62,9 +62,9 @@ target_sources( server
 
 target_link_libraries( server PRIVATE data dialog map netinterface script )
 target_link_libraries( server PUBLIC db )
-target_link_libraries( server PUBLIC Boost::system Boost::graph Threads::Threads std::ranges )
+target_link_libraries( server PUBLIC Boost::system Boost::graph Threads::Threads )
 # Additional links for the private interface libraries
-target_link_libraries( server PUBLIC Luabind::Luabind Pqxx::Pqxx std::filesystem )
+target_link_libraries( server PUBLIC Luabind::Luabind Pqxx::Pqxx )
 
 target_include_directories( server PUBLIC ${CMAKE_CURRENT_SOURCE_DIR} ${CMAKE_CURRENT_BINARY_DIR} )
 target_compile_features( server PUBLIC cxx_std_20 )

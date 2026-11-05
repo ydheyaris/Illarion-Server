@@ -28,6 +28,6 @@ target_sources( data
 )
 
 target_link_libraries( data INTERFACE db script )
-target_link_libraries( data INTERFACE Boost::boost std::filesystem )
+target_link_libraries( data INTERFACE Boost::boost )
 target_include_directories( data INTERFACE ${CMAKE_CURRENT_SOURCE_DIR}/.. )
 target_compile_features( data INTERFACE cxx_std_20 )

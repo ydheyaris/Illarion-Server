@@ -42,6 +42,7 @@
 #include <cmath>
 #include <limits>
 #include <map>
+#include <numeric>
 #include <ranges>
 
 extern std::unique_ptr<RaceTypeTable> raceTypes;
@@ -244,9 +245,11 @@ void Character::setInvisible(bool invisible) { isinvisible = invisible; }
 auto toNumber = [](const Item &item) { return item.getNumber(); };
 
 auto Character::countItem(TYPE_OF_ITEM_ID itemid) const -> int {
-    using namespace std::ranges;
     auto hasItemId = [itemid](const Item &item) { return item.getId() == itemid; };
-    int count = std::ranges::accumulate(items | std::views::filter(hasItemId) | std::views::transform(toNumber), 0);
+    int count = 0;
+    for (const auto &item : items | std::views::filter(hasItemId)) {
+        count += toNumber(item);
+    }
 
     if ((items.at(BACKPACK).getId() != 0) && (backPackContents != nullptr)) {
         count += backPackContents->countItem(itemid);
@@ -263,7 +266,10 @@ auto Character::countItemAt(const std::string &where, TYPE_OF_ITEM_ID itemid, sc
     };
 
     if (where == "all") {
-        int count = std::ranges::accumulate(items | std::views::filter(hasItemIdAndData) | std::views::transform(toNumber), 0);
+        int count = 0;
+        for (const auto &item : items | std::views::filter(hasItemIdAndData)) {
+            count += toNumber(item);
+        }
 
         if ((items.at(BACKPACK).getId() != 0) && (backPackContents != nullptr)) {
             count += backPackContents->countItem(itemid, data);
@@ -273,16 +279,20 @@ auto Character::countItemAt(const std::string &where, TYPE_OF_ITEM_ID itemid, sc
     }
 
     if (where == "belt") {
-        return std::ranges::accumulate(
-            items | std::views::drop(MAX_BODY_ITEMS) | std::views::take(MAX_BELT_SLOTS) |
-            std::views::filter(hasItemIdAndData) | std::views::transform(toNumber),
-            0);
+        int count = 0;
+        for (const auto &item : items | std::views::drop(MAX_BODY_ITEMS) | std::views::take(MAX_BELT_SLOTS) |
+                              std::views::filter(hasItemIdAndData)) {
+            count += toNumber(item);
+        }
+        return count;
     }
 
     if (where == "body") {
-        return std::ranges::accumulate(
-            items | std::views::take(MAX_BODY_ITEMS) | std::views::filter(hasItemIdAndData) | std::views::transform(toNumber),
-            0);
+        int count = 0;
+        for (const auto &item : items | std::views::take(MAX_BODY_ITEMS) | std::views::filter(hasItemIdAndData)) {
+            count += toNumber(item);
+        }
+        return count;
     }
 
     if (where == "backpack") {
